@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head><title>DOM XSS - Vulnerable</title></head>
-<body>
-    <h2>Vulnerable DOM XSS</h2>
-    <div id="output"></div>
-    <script>
-        var hash = decodeURIComponent(window.location.hash.substring(1));
-        if (hash) { document.getElementById("output").innerHTML = "Input: " + hash; }
-    </script>
-    <a href="/">Back Home</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Announcements - Vulnerable DOM{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Academic Announcements Noticeboard</h2>
+    <p style="color:var(--text-muted);">Vulnerable DOM-Based XSS Module</p>
+    <div id="output" style="padding:1rem; background:#f8fafc; border:1px solid var(--border); border-radius:4px; margin-top:1rem;"></div>
+</div>
+
+<script>
+    var hash = decodeURIComponent(window.location.hash.substring(1));
+    if (hash) {
+        document.getElementById("output").innerHTML = "<b>Notice Banner:</b> " + hash;
+    } else {
+        document.getElementById("output").innerHTML = "<b>Notice Banner:</b> No active notice hash provided in URL.";
+    }
+</script>
+{% endblock %}

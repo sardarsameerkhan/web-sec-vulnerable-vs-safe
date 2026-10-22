@@ -1,23 +1,25 @@
 {% extends "base.html" %}
-{% block title %}Student Discussion Forum{% endblock %}
+{% block title %}Discussion Board - Vulnerable{% endblock %}
 
 {% block content %}
 <div class="card">
-    <h2>💬 Student Discussion Forum</h2>
-    <p>Post a question or comment to your classmates (Stored XSS Test Module)</p>
-
+    <h2>Student Discussion Board</h2>
+    <p style="color:var(--text-muted);">Vulnerable Stored XSS Module</p>
     <form method="POST">
-        <input type="text" name="username" value="john_doe" readonly style="background: #f1f5f9;"><br>
-        <textarea name="comment" placeholder="Write your post here..." required></textarea>
-        <button type="submit" class="btn">Post to Forum</button>
+        <label>Posting As:</label>
+        <input type="text" name="username" value="sardar_sameer" readonly style="background:#f1f5f9;">
+        <label>Message / Post Content:</label>
+        <textarea name="comment" placeholder="Write your discussion post..." required></textarea>
+        <button type="submit" class="btn">Submit Post</button>
     </form>
 </div>
 
 <div class="card">
-    <h3>Recent Forum Posts</h3>
+    <h3>Recent Discussion Threads</h3>
     {% for c in comments %}
         <div style="border-bottom: 1px solid var(--border); padding: 0.75rem 0;">
-            <b>📌 {{ c.username }}:</b> {{ c.comment | safe }}
+            <b>Author: {{ c.username }}</b>
+            <p style="margin:0.25rem 0 0 0;">{{ c.comment | safe }}</p>
         </div>
     {% endfor %}
 </div>

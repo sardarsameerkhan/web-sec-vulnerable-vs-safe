@@ -1,9 +1,9 @@
 import sqlite3
 import secrets
-from flask import Flask, request, render_template, render_template_string, session
+from flask import Flask, request, render_template, session
 
 app = Flask(__name__)
-app.secret_key = "super_secret_lab_key_2026"
+app.secret_key = "super_secret_flex_key_2026"
 
 def get_db_connection():
     conn = sqlite3.connect("database.db")
@@ -42,7 +42,7 @@ def safe_xss_reflected():
 def vuln_xss_stored():
     conn = get_db_connection()
     if request.method == "POST":
-        username = request.form.get("username", "Anonymous")
+        username = request.form.get("username", "sardar_sameer")
         comment = request.form.get("comment", "")
         conn.execute("INSERT INTO comments (username, comment) VALUES (?, ?)", (username, comment))
         conn.commit()
@@ -54,7 +54,7 @@ def vuln_xss_stored():
 def safe_xss_stored():
     conn = get_db_connection()
     if request.method == "POST":
-        username = request.form.get("username", "Anonymous")
+        username = request.form.get("username", "sardar_sameer")
         comment = request.form.get("comment", "")
         conn.execute("INSERT INTO comments (username, comment) VALUES (?, ?)", (username, comment))
         conn.commit()

@@ -1,18 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head><title>SQLi Advanced</title></head>
-<body>
-    <h2>SQL Injection Level 3</h2>
+{% extends "base.html" %}
+{% block title %}Forum Data Archive Search{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Forum Data Archive Search</h2>
+    <p style="color:var(--text-muted);">SQL Injection Level 3 (UNION-Based Data Extraction)</p>
+    
     <form method="GET">
-        <input type="text" name="search" value="{{ search }}" placeholder="Search">
-        <button type="submit">Search</button>
+        <label>Search Archive Content:</label>
+        <input type="text" name="search" value="{{ search }}" placeholder="Type keywords...">
+        <button type="submit" class="btn">Search Archive</button>
     </form>
-    <table border="1">
-        <tr><th>ID</th><th>User</th><th>Comment</th></tr>
+</div>
+
+<div class="card">
+    <h3>Query Results</h3>
+    <table>
+        <tr><th>Record ID</th><th>Author</th><th>Comment / Data Payload</th></tr>
         {% for r in results %}
-        <tr><td>{{ r.id }}</td><td>{{ r.username }}</td><td>{{ r.comment }}</td></tr>
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.username }}</td>
+            <td>{{ r.comment }}</td>
+        </tr>
         {% endfor %}
     </table>
-    <a href="/">Back Home</a>
-</body>
-</html>
+</div>
+{% endblock %}

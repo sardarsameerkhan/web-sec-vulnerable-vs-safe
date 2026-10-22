@@ -22,8 +22,8 @@ INSERT INTO users (username, full_name, password, email, role) VALUES
 ('abdul_rehman', 'Abdul Rehman', 'AbdulPass2026!', 'abdul.rehman@flex.edu', 'student'),
 ('salman_shafique', 'Salman Shafique', 'SalmanPass2026!', 'salman.shafique@flex.edu', 'student');
 
--- Seed Initial Discussion Forum Data
+-- Seed Initial Discussion Forum & Announcement Data
 INSERT INTO comments (username, comment) VALUES 
-('sardar_sameer', 'Welcome to FLEX Academic Portal. Please complete your registration verification.'),
-('abdul_rehman', 'Has the course syllabus for Web Security been uploaded yet?'),
-('salman_shafique', 'Yes, it is available under the course documents tab.');
+('sardar_sameer', 'Welcome to FLEX Academic Portal. Course enrollment for Fall 2026 is now active.'),
+('abdul_rehman', 'Has the course syllabus for Information Security been updated?'),
+('salman_shafique', 'Yes, it is available under the course resources directory.');

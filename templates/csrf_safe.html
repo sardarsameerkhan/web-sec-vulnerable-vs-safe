@@ -1,15 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head><title>CSRF - Safe</title></head>
-<body>
-    <h2>Safe Email Update</h2>
-    <p>User: <b>{{ user }}</b></p>
-    <p style="color:green;">{{ msg }}</p>
+{% extends "base.html" %}
+{% block title %}Account Settings - Safe{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:550px;">
+    <h2>Account Settings - Update Email</h2>
+    <p style="color:var(--text-muted);">Currently Logged in User: <b>{{ user }}</b></p>
+    
+    {% if msg %}
+        <p style="color:var(--success); font-weight:600;">{{ msg }}</p>
+    {% endif %}
+
     <form method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <input type="email" name="email" placeholder="New Email" required>
-        <button type="submit">Update</button>
+        <label>Institutional Email Address:</label>
+        <input type="email" name="email" placeholder="e.g. sardar.sameer@flex.edu" required>
+        <button type="submit" class="btn">Update Account Profile</button>
     </form>
-    <a href="/">Back Home</a>
-</body>
-</html>
+</div>
+{% endblock %}
