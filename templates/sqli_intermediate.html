@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>SQLi Intermediate</title></head>
+<body>
+    <h2>SQL Injection Level 2</h2>
+    <form method="GET">
+        <input type="text" name="id" value="{{ user_id }}" placeholder="User ID">
+        <button type="submit">Lookup</button>
+    </form>
+    <pre>{{ result }}</pre>
+    <a href="/">Back Home</a>
+</body>
+</html>

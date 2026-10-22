@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>SQLi Advanced</title></head>
+<body>
+    <h2>SQL Injection Level 3</h2>
+    <form method="GET">
+        <input type="text" name="search" value="{{ search }}" placeholder="Search">
+        <button type="submit">Search</button>
+    </form>
+    <table border="1">
+        <tr><th>ID</th><th>User</th><th>Comment</th></tr>
+        {% for r in results %}
+        <tr><td>{{ r.id }}</td><td>{{ r.username }}</td><td>{{ r.comment }}</td></tr>
+        {% endfor %}
+    </table>
+    <a href="/">Back Home</a>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><title>CSRF - Safe</title></head>
+<body>
+    <h2>Safe Email Update</h2>
+    <p>User: <b>{{ user }}</b></p>
+    <p style="color:green;">{{ msg }}</p>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="email" name="email" placeholder="New Email" required>
+        <button type="submit">Update</button>
+    </form>
+    <a href="/">Back Home</a>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>Stored XSS - Safe</title></head>
+<body>
+    <h2>Safe Stored XSS</h2>
+    <form method="POST">
+        <input type="text" name="username" placeholder="Name" required><br><br>
+        <textarea name="comment" placeholder="Comment" required></textarea><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <h3>Comments</h3>
+    {% for c in comments %}
+        <p><b>{{ c.username }}:</b> {{ c.comment }}</p>
+    {% endfor %}
+    <a href="/">Back Home</a>
+</body>
+</html>

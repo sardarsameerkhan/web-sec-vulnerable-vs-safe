@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>CSRF - Vulnerable</title></head>
+<body>
+    <h2>Vulnerable Email Update</h2>
+    <p>User: <b>{{ user }}</b></p>
+    <p style="color:green;">{{ msg }}</p>
+    <form method="POST">
+        <input type="email" name="email" placeholder="New Email" required>
+        <button type="submit">Update</button>
+    </form>
+    <a href="/">Back Home</a>
+</body>
+</html>

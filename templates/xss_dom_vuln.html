@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>DOM XSS - Vulnerable</title></head>
+<body>
+    <h2>Vulnerable DOM XSS</h2>
+    <div id="output"></div>
+    <script>
+        var hash = decodeURIComponent(window.location.hash.substring(1));
+        if (hash) { document.getElementById("output").innerHTML = "Input: " + hash; }
+    </script>
+    <a href="/">Back Home</a>
+</body>
+</html>

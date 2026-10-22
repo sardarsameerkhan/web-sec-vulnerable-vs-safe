@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head><title>Reflected XSS - Safe</title></head>
+<body>
+    <h2>Safe Reflected XSS</h2>
+    <form method="GET"><input type="text" name="q" value="{{ q }}"><button type="submit">Search</button></form>
+    <p>Search Results for: {{ q }}</p>
+    <a href="/">Back Home</a>
+</body>
+</html>
