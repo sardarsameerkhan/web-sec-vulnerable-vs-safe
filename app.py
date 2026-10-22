@@ -19,25 +19,25 @@ app.jinja_env.globals["csrf_token"] = generate_csrf_token
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", mode="vulnerable")
 
-# --- 1. XSS ROUTES ---
+# ===================================================================
+# 1. CROSS-SITE SCRIPTING (XSS)
+# ===================================================================
+
+# --- Reflected XSS ---
 @app.route("/vulnerable/xss/reflected")
 def vuln_xss_reflected():
     q = request.args.get("q", "")
-    template = f"""
-    <h2>Vulnerable Reflected XSS</h2>
-    <form method="GET"><input type="text" name="q" value="{q}"><button type="submit">Search</button></form>
-    <p>Search Results for: {q}</p>
-    <a href="/">Back Home</a>
-    """
-    return render_template_string(template)
+    return render_template("xss_reflected_vuln.html", q=q, mode="vulnerable")
 
 @app.route("/safe/xss/reflected")
 def safe_xss_reflected():
     q = request.args.get("q", "")
-    return render_template("xss_reflected_safe.html", q=q)
+    return render_template("xss_reflected_safe.html", q=q, mode="safe")
 
+
+# --- Stored XSS ---
 @app.route("/vulnerable/xss/stored", methods=["GET", "POST"])
 def vuln_xss_stored():
     conn = get_db_connection()
@@ -48,7 +48,7 @@ def vuln_xss_stored():
         conn.commit()
     comments = conn.execute("SELECT * FROM comments").fetchall()
     conn.close()
-    return render_template("xss_stored_vuln.html", comments=comments)
+    return render_template("xss_stored_vuln.html", comments=comments, mode="vulnerable")
 
 @app.route("/safe/xss/stored", methods=["GET", "POST"])
 def safe_xss_stored():
@@ -60,21 +60,27 @@ def safe_xss_stored():
         conn.commit()
     comments = conn.execute("SELECT * FROM comments").fetchall()
     conn.close()
-    return render_template("xss_stored_safe.html", comments=comments)
+    return render_template("xss_stored_safe.html", comments=comments, mode="safe")
 
+
+# --- DOM-based XSS ---
 @app.route("/vulnerable/xss/dom")
 def vuln_xss_dom():
-    return render_template("xss_dom_vuln.html")
+    return render_template("xss_dom_vuln.html", mode="vulnerable")
 
 @app.route("/safe/xss/dom")
 def safe_xss_dom():
-    return render_template("xss_dom_safe.html")
+    return render_template("xss_dom_safe.html", mode="safe")
 
-# --- 2. CSRF ROUTES ---
+
+# ===================================================================
+# 2. CROSS-SITE REQUEST FORGERY (CSRF)
+# ===================================================================
+
 @app.route("/vulnerable/csrf/change-email", methods=["GET", "POST"])
 def vuln_csrf():
     if "user" not in session:
-        session["user"] = "john_doe"
+        session["user"] = "sardar_sameer"
     msg = ""
     if request.method == "POST":
         new_email = request.form.get("email")
@@ -82,13 +88,13 @@ def vuln_csrf():
         conn.execute("UPDATE users SET email = ? WHERE username = ?", (new_email, session["user"]))
         conn.commit()
         conn.close()
-        msg = f"Email updated to {new_email}!"
-    return render_template("csrf_vuln.html", msg=msg, user=session["user"])
+        msg = f"Email updated successfully to {new_email}!"
+    return render_template("csrf_vuln.html", msg=msg, user=session["user"], mode="vulnerable")
 
 @app.route("/safe/csrf/change-email", methods=["GET", "POST"])
 def safe_csrf():
     if "user" not in session:
-        session["user"] = "john_doe"
+        session["user"] = "sardar_sameer"
     msg = ""
     if request.method == "POST":
         token = request.form.get("csrf_token")
@@ -100,9 +106,14 @@ def safe_csrf():
         conn.commit()
         conn.close()
         msg = f"Email safely updated to {new_email}!"
-    return render_template("csrf_safe.html", msg=msg, user=session["user"])
+    return render_template("csrf_safe.html", msg=msg, user=session["user"], mode="safe")
 
-# --- 3. SQL INJECTION ROUTES ---
+
+# ===================================================================
+# 3. SQL INJECTION (SQLi)
+# ===================================================================
+
+# --- SQLi Level 1: Easy ---
 @app.route("/vulnerable/sqli/easy", methods=["GET", "POST"])
 def vuln_sqli_easy():
     msg = ""
@@ -114,13 +125,13 @@ def vuln_sqli_easy():
         try:
             user = conn.execute(query).fetchone()
             if user:
-                msg = f"Logged in as {user['username']} ({user['role']})!"
+                msg = f"Logged in successfully as {user['full_name']} ({user['role']})!"
             else:
                 msg = "Invalid credentials."
         except Exception as e:
             msg = f"Database Error: {str(e)}"
         conn.close()
-    return render_template("sqli_easy.html", msg=msg)
+    return render_template("sqli_easy.html", msg=msg, mode="vulnerable")
 
 @app.route("/safe/sqli/easy", methods=["GET", "POST"])
 def safe_sqli_easy():
@@ -133,40 +144,44 @@ def safe_sqli_easy():
         user = conn.execute(query, (username, password)).fetchone()
         conn.close()
         if user:
-            msg = f"Logged in as {user['username']} ({user['role']})!"
+            msg = f"Logged in successfully as {user['full_name']} ({user['role']})!"
         else:
             msg = "Invalid credentials."
-    return render_template("sqli_easy.html", msg=msg)
+    return render_template("sqli_easy.html", msg=msg, mode="safe")
 
+
+# --- SQLi Level 2: Intermediate ---
 @app.route("/vulnerable/sqli/intermediate")
 def vuln_sqli_intermediate():
     user_id = request.args.get("id", "")
     conn = get_db_connection()
-    query = f"SELECT id, username, email FROM users WHERE id = {user_id}" if user_id else "SELECT id, username, email FROM users"
+    query = f"SELECT id, username, full_name, email FROM users WHERE id = {user_id}" if user_id else "SELECT id, username, full_name, email FROM users"
     try:
         res = conn.execute(query).fetchall()
         result = [dict(row) for row in res]
     except Exception as e:
         result = f"SQL Syntax Error: {str(e)}"
     conn.close()
-    return render_template("sqli_intermediate.html", result=result, user_id=user_id)
+    return render_template("sqli_intermediate.html", result=result, user_id=user_id, mode="vulnerable")
 
 @app.route("/safe/sqli/intermediate")
 def safe_sqli_intermediate():
     user_id = request.args.get("id", "")
     conn = get_db_connection()
-    query = "SELECT id, username, email FROM users WHERE id = ?"
+    query = "SELECT id, username, full_name, email FROM users WHERE id = ?"
     try:
         if user_id:
             res = conn.execute(query, (user_id,)).fetchall()
         else:
-            res = conn.execute("SELECT id, username, email FROM users").fetchall()
+            res = conn.execute("SELECT id, username, full_name, email FROM users").fetchall()
         result = [dict(row) for row in res]
     except Exception:
         result = "An error occurred processing your request."
     conn.close()
-    return render_template("sqli_intermediate.html", result=result, user_id=user_id)
+    return render_template("sqli_intermediate.html", result=result, user_id=user_id, mode="safe")
 
+
+# --- SQLi Level 3: Advanced ---
 @app.route("/vulnerable/sqli/advanced")
 def vuln_sqli_advanced():
     search = request.args.get("search", "")
@@ -178,7 +193,7 @@ def vuln_sqli_advanced():
     except Exception:
         results = []
     conn.close()
-    return render_template("sqli_advanced.html", results=results, search=search)
+    return render_template("sqli_advanced.html", results=results, search=search, mode="vulnerable")
 
 @app.route("/safe/sqli/advanced")
 def safe_sqli_advanced():
@@ -191,7 +206,7 @@ def safe_sqli_advanced():
     except Exception:
         results = []
     conn.close()
-    return render_template("sqli_advanced.html", results=results, search=search)
+    return render_template("sqli_advanced.html", results=results, search=search, mode="safe")
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
