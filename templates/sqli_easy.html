@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html>
-<head><title>SQLi Easy</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EduPortal - Student Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
-    <h2>SQL Injection Level 1</h2>
-    <p style="color:red;">{{ msg }}</p>
-    <form method="POST">
-        <input type="text" name="username" placeholder="Username" required><br><br>
-        <input type="password" name="password" placeholder="Password"><br><br>
-        <button type="submit">Login</button>
-    </form>
-    <a href="/">Back Home</a>
+    <div class="navbar">
+        <h1>🎓 EduPortal Student Login</h1>
+        <a href="/" class="btn btn-secondary">Back to Portal Home</a>
+    </div>
+
+    <div class="container">
+        <div class="card" style="max-width: 450px; margin: 2rem auto;">
+            <h2>Login to Account</h2>
+            {% if msg %}
+                <p style="color: var(--danger-color); font-weight: 600;">{{ msg }}</p>
+            {% endif %}
+            <form method="POST">
+                <label>Username / Student ID:</label>
+                <input type="text" name="username" placeholder="e.g. john_doe" required>
+                
+                <label>Password:</label>
+                <input type="password" name="password" placeholder="••••••••">
+                
+                <button type="submit" class="btn" style="width: 100%;">Sign In</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
