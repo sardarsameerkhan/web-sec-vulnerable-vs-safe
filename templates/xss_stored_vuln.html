@@ -1,17 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head><title>Stored XSS - Vulnerable</title></head>
-<body>
-    <h2>Vulnerable Stored XSS</h2>
+{% extends "base.html" %}
+{% block title %}Student Discussion Forum{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>💬 Student Discussion Forum</h2>
+    <p>Post a question or comment to your classmates (Stored XSS Test Module)</p>
+
     <form method="POST">
-        <input type="text" name="username" placeholder="Name" required><br><br>
-        <textarea name="comment" placeholder="Comment" required></textarea><br><br>
-        <button type="submit">Submit</button>
+        <input type="text" name="username" value="john_doe" readonly style="background: #f1f5f9;"><br>
+        <textarea name="comment" placeholder="Write your post here..." required></textarea>
+        <button type="submit" class="btn">Post to Forum</button>
     </form>
-    <h3>Comments</h3>
+</div>
+
+<div class="card">
+    <h3>Recent Forum Posts</h3>
     {% for c in comments %}
-        <p><b>{{ c.username }}:</b> {{ c.comment | safe }}</p>
+        <div style="border-bottom: 1px solid var(--border); padding: 0.75rem 0;">
+            <b>📌 {{ c.username }}:</b> {{ c.comment | safe }}
+        </div>
     {% endfor %}
-    <a href="/">Back Home</a>
-</body>
-</html>
+</div>
+{% endblock %}

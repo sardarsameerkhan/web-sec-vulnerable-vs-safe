@@ -1,63 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>EduPortal Security Demonstration</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="navbar">
-        <h1>🎓 EduPortal | Security Lab Dashboard</h1>
-        <span>Student & Admin Control Panel</span>
-    </div>
+{% extends "base.html" %}
+{% block title %}EduPortal Dashboard{% endblock %}
 
-    <div class="container">
-        <div class="card">
-            <h2>Portal Use Case Overview</h2>
-            <p>Welcome to the <b>EduPortal Security Lab</b>. Select a feature below to test individual security vulnerabilities in both <b>Vulnerable</b> and <b>Safe</b> implementations.</p>
+{% block content %}
+<div class="student-banner">
+    <h2>Welcome back, John Doe! 👋</h2>
+    <p>Student ID: <b>2026-CS-8921</b> | Major: Cybersecurity & Software Engineering</p>
+</div>
+
+<div class="card">
+    <h3>Active Security Posture</h3>
+    <p>Select a mode from the top bar to test security vulnerabilities and fixes across live student modules:</p>
+    <div class="grid-2">
+        <div style="border-left: 4px solid var(--danger); padding-left: 1rem;">
+            <h4>⚠️ Vulnerable Mode (`/vulnerable/*`)</h4>
+            <p>Runs raw, unescaped string operations allowing end-to-end attacks.</p>
         </div>
-
-        <div class="grid">
-            <!-- XSS Section -->
-            <div class="card">
-                <h3>1. Cross-Site Scripting (XSS)</h3>
-                <p><b>Reflected:</b> Course Search Filter</p>
-                <a href="/vulnerable/xss/reflected" class="btn">Vulnerable</a>
-                <a href="/safe/xss/reflected" class="btn btn-secondary">Safe</a>
-                <hr>
-                <p><b>Stored:</b> Student Discussion Forum</p>
-                <a href="/vulnerable/xss/stored" class="btn">Vulnerable</a>
-                <a href="/safe/xss/stored" class="btn btn-secondary">Safe</a>
-                <hr>
-                <p><b>DOM-Based:</b> Profile Welcome Notice</p>
-                <a href="/vulnerable/xss/dom" class="btn">Vulnerable</a>
-                <a href="/safe/xss/dom" class="btn btn-secondary">Safe</a>
-            </div>
-
-            <!-- CSRF Section -->
-            <div class="card">
-                <h3>2. Cross-Site Request Forgery (CSRF)</h3>
-                <p><b>Action:</b> Update Student Email</p>
-                <a href="/vulnerable/csrf/change-email" class="btn">Vulnerable</a>
-                <a href="/safe/csrf/change-email" class="btn btn-secondary">Safe</a>
-            </div>
-
-            <!-- SQLi Section -->
-            <div class="card">
-                <h3>3. SQL Injection (SQLi)</h3>
-                <p><b>Level 1 (Easy):</b> Portal Login Bypass</p>
-                <a href="/vulnerable/sqli/easy" class="btn">Vulnerable</a>
-                <a href="/safe/sqli/easy" class="btn btn-secondary">Safe</a>
-                <hr>
-                <p><b>Level 2 (Intermediate):</b> Student ID Lookup</p>
-                <a href="/vulnerable/sqli/intermediate" class="btn">Vulnerable</a>
-                <a href="/safe/sqli/intermediate" class="btn btn-secondary">Safe</a>
-                <hr>
-                <p><b>Level 3 (Advanced):</b> Forum Search Data Extraction</p>
-                <a href="/vulnerable/sqli/advanced" class="btn">Vulnerable</a>
-                <a href="/safe/sqli/advanced" class="btn btn-secondary">Safe</a>
-            </div>
+        <div style="border-left: 4px solid var(--success); padding-left: 1rem;">
+            <h4>🛡️ Safe Mode (`/safe/*`)</h4>
+            <p>Applies parameterized queries, HTML encoding, and anti-CSRF tokens.</p>
         </div>
     </div>
-</body>
-</html>
+</div>
+
+<div class="card">
+    <h3>Enrolled Courses</h3>
+    <table>
+        <tr><th>Course Code</th><th>Course Title</th><th>Instructor</th><th>Status</th></tr>
+        <tr><td>CS-401</td><td>Web Application Security</td><td>Dr. Alex Mercer</td><td><span style="color:var(--success); font-weight:600;">Enrolled</span></td></tr>
+        <tr><td>CS-302</td><td>Database Management Systems</td><td>Prof. Sarah Jenkins</td><td><span style="color:var(--success); font-weight:600;">Enrolled</span></td></tr>
+    </table>
+</div>
+{% endblock %}
