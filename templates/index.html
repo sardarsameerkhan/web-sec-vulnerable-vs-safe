@@ -1,33 +1,60 @@
 {% extends "base.html" %}
-{% block title %}EduPortal Dashboard{% endblock %}
+{% block title %}FLEX - Student Dashboard{% endblock %}
 
 {% block content %}
-<div class="student-banner">
-    <h2>Welcome back, John Doe! 👋</h2>
-    <p>Student ID: <b>2026-CS-8921</b> | Major: Cybersecurity & Software Engineering</p>
+<div class="portal-banner">
+    <h2 style="margin:0 0 0.5rem 0;">FLEX Student & Academic Portal</h2>
+    <p style="margin:0; color: var(--text-muted);">
+        <b>Project Team:</b> Sardar Sameer | Abdul Rehman | Salman Shafique
+    </p>
 </div>
 
 <div class="card">
-    <h3>Active Security Posture</h3>
-    <p>Select a mode from the top bar to test security vulnerabilities and fixes across live student modules:</p>
+    <h3 style="margin-top:0;">System Security Architecture</h3>
+    <p>Use the mode selector in the top header to toggle the security posture of all portal modules:</p>
     <div class="grid-2">
-        <div style="border-left: 4px solid var(--danger); padding-left: 1rem;">
-            <h4>⚠️ Vulnerable Mode (`/vulnerable/*`)</h4>
-            <p>Runs raw, unescaped string operations allowing end-to-end attacks.</p>
+        <div style="border-left: 3px solid var(--danger); padding-left: 1rem;">
+            <h4 style="margin:0 0 0.5rem 0; color: var(--danger);">Vulnerable Mode</h4>
+            <p style="margin:0; font-size: 0.9rem; color: var(--text-muted);">
+                Applies standard unescaped operations and direct string concatenation to simulate exploitable security flaws.
+            </p>
         </div>
-        <div style="border-left: 4px solid var(--success); padding-left: 1rem;">
-            <h4>🛡️ Safe Mode (`/safe/*`)</h4>
-            <p>Applies parameterized queries, HTML encoding, and anti-CSRF tokens.</p>
+        <div style="border-left: 3px solid var(--success); padding-left: 1rem;">
+            <h4 style="margin:0 0 0.5rem 0; color: var(--success);">Safe Mode</h4>
+            <p style="margin:0; font-size: 0.9rem; color: var(--text-muted);">
+                Applies strict parameterization, context-aware HTML escaping, DOM safe node manipulation, and anti-CSRF token verification.
+            </p>
         </div>
     </div>
 </div>
 
 <div class="card">
-    <h3>Enrolled Courses</h3>
+    <h3 style="margin-top:0;">Registered Team Accounts</h3>
     <table>
-        <tr><th>Course Code</th><th>Course Title</th><th>Instructor</th><th>Status</th></tr>
-        <tr><td>CS-401</td><td>Web Application Security</td><td>Dr. Alex Mercer</td><td><span style="color:var(--success); font-weight:600;">Enrolled</span></td></tr>
-        <tr><td>CS-302</td><td>Database Management Systems</td><td>Prof. Sarah Jenkins</td><td><span style="color:var(--success); font-weight:600;">Enrolled</span></td></tr>
+        <tr>
+            <th>Student Name</th>
+            <th>System Username</th>
+            <th>Role</th>
+            <th>Institutional Email</th>
+        </tr>
+        <tr>
+            <td><b>Sardar Sameer</b></td>
+            <td>sardar_sameer</td>
+            <td>Administrator</td>
+            <td>sardar.sameer@flex.edu</td>
+        </tr>
+        <tr>
+            <td><b>Abdul Rehman</b></td>
+            <td>abdul_rehman</td>
+            <td>Student</td>
+            <td>abdul.rehman@flex.edu</td>
+        </tr>
+        <tr>
+            <td><b>Salman Shafique</b></td>
+            <td>salman_shafique</td>
+            <td>Student</td>
+            <td>salman.shafique@flex.edu</td>
+        </tr>
     </table>
 </div>
 {% endblock %}

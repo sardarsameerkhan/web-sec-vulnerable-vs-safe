@@ -2,35 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}EduPortal Student Portal{% endblock %}</title>
+    <title>{% block title %}FLEX Academic Portal{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- Top Header & Security Version Switcher -->
     <div class="top-header">
-        <div class="brand-logo">🎓 EduPortal <span>| Security Lab</span></div>
+        <div class="brand-logo">
+            FLEX <span class="brand-subtitle">| Academic Student Portal</span>
+        </div>
         <div class="mode-toggle">
-            <a href="/vulnerable/sqli/easy" class="mode-btn {% if mode == 'vulnerable' %}active-vuln{% endif %}">⚠️ Vulnerable Mode</a>
-            <a href="/safe/sqli/easy" class="mode-btn {% if mode == 'safe' %}active-safe{% endif %}">🛡️ Safe Mode</a>
+            <a href="/vulnerable/sqli/easy" class="mode-btn {% if mode == 'vulnerable' %}active-vuln{% endif %}">Vulnerable Mode</a>
+            <a href="/safe/sqli/easy" class="mode-btn {% if mode == 'safe' %}active-safe{% endif %}">Safe Mode</a>
         </div>
     </div>
 
     <div class="dashboard-container">
-        <!-- Student Portal Sidebar -->
         <div class="sidebar">
+            <div class="sidebar-title">Main Menu</div>
             <ul class="sidebar-menu">
-                <li><a href="/">📌 Dashboard Overview</a></li>
-                <li><a href="/{{ mode }}/sqli/easy">🔑 Portal Login (SQLi 1)</a></li>
-                <li><a href="/{{ mode }}/sqli/intermediate">🔍 Student Lookup (SQLi 2)</a></li>
-                <li><a href="/{{ mode }}/xss/reflected">📚 Course Search (Reflected XSS)</a></li>
-                <li><a href="/{{ mode }}/xss/stored">💬 Student Forum (Stored XSS)</a></li>
-                <li><a href="/{{ mode }}/xss/dom">🔔 Notices (DOM XSS)</a></li>
-                <li><a href="/{{ mode }}/csrf/change-email">⚙️ Account Settings (CSRF)</a></li>
-                <li><a href="/{{ mode }}/sqli/advanced">📂 Forum Data Search (SQLi 3)</a></li>
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/{{ mode }}/sqli/easy">Portal Login (SQLi 1)</a></li>
+                <li><a href="/{{ mode }}/sqli/intermediate">Student Search (SQLi 2)</a></li>
+                <li><a href="/{{ mode }}/xss/reflected">Course Directory (Reflected XSS)</a></li>
+                <li><a href="/{{ mode }}/xss/stored">Discussion Board (Stored XSS)</a></li>
+                <li><a href="/{{ mode }}/xss/dom">Announcements (DOM XSS)</a></li>
+                <li><a href="/{{ mode }}/csrf/change-email">Account Settings (CSRF)</a></li>
+                <li><a href="/{{ mode }}/sqli/advanced">Forum Records (SQLi 3)</a></li>
             </ul>
         </div>
 
-        <!-- Main Workspace -->
         <div class="main-content">
             {% block content %}{% endblock %}
         </div>

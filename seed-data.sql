@@ -4,9 +4,10 @@ DROP TABLE IF EXISTS comments;
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
+    full_name TEXT NOT NULL,
     password TEXT NOT NULL,
     email TEXT NOT NULL,
-    role TEXT NOT NULL DEFAULT 'user'
+    role TEXT NOT NULL DEFAULT 'student'
 );
 
 CREATE TABLE comments (
@@ -15,12 +16,14 @@ CREATE TABLE comments (
     comment TEXT NOT NULL
 );
 
--- Seed users
-INSERT INTO users (username, password, email, role) VALUES 
-('admin', 'AdminPass2026!', 'admin@security.lab', 'administrator'),
-('john_doe', 'UserPass123!', 'john@security.lab', 'user'),
-('jane_smith', 'SecurePass456!', 'jane@security.lab', 'user');
+-- Seed Team Members & Admin Users
+INSERT INTO users (username, full_name, password, email, role) VALUES 
+('sardar_sameer', 'Sardar Sameer', 'SameerPass2026!', 'sardar.sameer@flex.edu', 'administrator'),
+('abdul_rehman', 'Abdul Rehman', 'AbdulPass2026!', 'abdul.rehman@flex.edu', 'student'),
+('salman_shafique', 'Salman Shafique', 'SalmanPass2026!', 'salman.shafique@flex.edu', 'student');
 
--- Seed comments
+-- Seed Initial Discussion Forum Data
 INSERT INTO comments (username, comment) VALUES 
-('john_doe', 'Welcome to the web security demonstration lab!');
+('sardar_sameer', 'Welcome to FLEX Academic Portal. Please complete your registration verification.'),
+('abdul_rehman', 'Has the course syllabus for Web Security been uploaded yet?'),
+('salman_shafique', 'Yes, it is available under the course documents tab.');
