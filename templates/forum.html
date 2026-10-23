@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-4 shadow-sm border-0 mb-4">
+    <h3 class="fw-bold">Academic Discussion Forum</h3>
+    <form method="POST" action="/forum" class="mt-2">
+        <div class="mb-3">
+            <textarea name="content" class="form-control" rows="3" placeholder="Write a discussion post..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Post Discussion</button>
+    </form>
+</div>
+
+<div class="card p-4 shadow-sm border-0">
+    <h5 class="fw-bold mb-3">Recent Posts</h5>
+    {% for p in posts %}
+        <div class="border-bottom pb-2 mb-2">
+            <div class="d-flex justify-content-between">
+                <strong>{{ p['author'] }}</strong>
+                <small class="text-muted">{{ p['created_at'] }}</small>
+            </div>
+            <p class="mb-0 mt-1">
+                {% if session['mode'] == 'vulnerable' %}
+                    {{ p['content'] | safe }}
+                {% else %}
+                    {{ p['content'] }}
+                {% endif %}
+            </p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

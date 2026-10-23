@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <h3 class="card-title text-primary fw-bold mb-3">Student Directory Filter (SQLi Level 2)</h3>
+            <p class="text-muted">Search for enrolled students by department code and student ID.</p>
+            
+            <form method="POST" action="/students" class="row g-3">
+                <div class="col-md-5">
+                    <label for="dept" class="form-label fw-bold">Department Code</label>
+                    <input type="text" class="form-control" id="dept" name="dept" placeholder="e.g. CS, EE, SE" value="CS" required>
+                </div>
+                <div class="col-md-5">
+                    <label for="student_id" class="form-label fw-bold">Student ID</label>
+                    <input type="text" class="form-control" id="student_id" name="student_id" placeholder="e.g. 101" required>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Filter Students</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if executed_query %}
+    <div class="card shadow-sm border-secondary mb-4">
+        <div class="card-header bg-dark text-white fw-bold">
+            Executed SQL Query
+        </div>
+        <div class="card-body bg-light">
+            <code class="text-danger fw-bold">{{ executed_query }}</code>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if student_records is not none %}
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white fw-bold">
+            Search Results ({{ student_records|length }} Records Found)
+        </div>
+        <div class="card-body p-0">
+            {% if student_records %}
+            <table class="table table-striped table-hover m-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Department</th>
+                        <th>Name</th>
+                        <th>GPA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in student_records %}
+                    <tr>
+                        <td>{{ student['student_id'] }}</td>
+                        <td><span class="badge bg-secondary">{{ student['department'] }}</span></td>
+                        <td>{{ student['name'] }}</td>
+                        <td>{{ student['gpa'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="p-4 text-center text-muted">
+                No matching student records found.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

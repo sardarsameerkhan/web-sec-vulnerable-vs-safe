@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-4 shadow-sm mb-4">
+    <h3 class="fw-bold">Course Search Directory</h3>
+    <p class="text-muted">Reflected XSS Demonstration</p>
+    <form method="GET" action="/{{ mode }}/xss/reflected">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" value="{{ q }}" placeholder="Search course (e.g., <script>alert('XSS')</script>)...">
+            <button type="submit" class="btn {{ 'btn-danger' if mode == 'vulnerable' else 'btn-success' }}">Search</button>
+        </div>
+    </form>
+</div>
+
+{% if q %}
+<div class="card border-secondary shadow-sm">
+    <div class="card-header bg-dark text-white fw-bold">Response Verification Panel</div>
+    <div class="card-body">
+        <p><strong>Encoding Status:</strong> 
+            <span class="badge {{ 'bg-danger' if mode == 'vulnerable' else 'bg-success' }}">
+                {{ "Disabled (| safe filter used)" if mode == "vulnerable" else "Context-Aware HTML Encoding (Auto-Escaped)" }}
+            </span>
+        </p>
+
+        <p class="mb-1"><strong>Visual Rendered Output:</strong></p>
+        <div class="p-3 border rounded bg-light mb-3">
+            {% if mode == 'vulnerable' %}
+                {{ user_input | safe }}
+            {% else %}
+                {{ user_input }}
+            {% endif %}
+        </div>
+
+        <p class="mb-1"><strong>Raw HTTP Response Body (HTML Source):</strong></p>
+        <pre class="bg-dark text-warning p-3 rounded"><code>{{ raw_html_string }}</code></pre>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

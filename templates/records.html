@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-4 shadow-sm border-0 mb-4">
+    <h3 class="fw-bold">Forum User Lookup</h3>
+    <p class="text-muted">SQL Injection Level 3 (Advanced Search / Sub-query Inspection)</p>
+    <form method="POST" action="/records">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search user records...">
+            <button type="submit" class="btn btn-primary">Search Records</button>
+        </div>
+    </form>
+</div>
+
+{% if executed_query %}
+<div class="card border-secondary shadow-sm mb-4">
+    <div class="card-header bg-dark text-white fw-bold">Executed Query Panel</div>
+    <div class="card-body">
+        <pre class="bg-dark text-info p-3 rounded mb-0"><code>{{ executed_query }}</code></pre>
+    </div>
+</div>
+{% endif %}
+
+{% if records_found %}
+<div class="card p-3 shadow-sm border-0">
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr><th>ID</th><th>User Field</th><th>Role Field</th></tr>
+        </thead>
+        <tbody>
+            {% for r in records_found %}
+            <tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td><td>{{ r[2] }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}
